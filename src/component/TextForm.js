@@ -54,7 +54,7 @@ export default function TextForm(props) {
 <button className="btn btn-primary mx-2 " onClick={handleLowClick}>Convert To Lower case </button>
 <button className="btn btn-primary mx-2 " onClick={handleClearClick}>Clear </button>
 <button className="btn btn-primary mx-2 " onClick={handleCopyClick}>Copy </button>
-<button className="btn btn-primary mx-2 " onClick={handleSpaceClick}>Remove Extra Remove </button>
+<button className="btn btn-primary mx-2 " onClick={handleSpaceClick}>Remove Extra Line</button>
 
 
     </div>
