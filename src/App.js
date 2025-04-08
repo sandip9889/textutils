@@ -1,5 +1,4 @@
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 // import About from './component/About';
 import Navbar from './component/Navbar';
@@ -14,30 +13,51 @@ import Alert from './component/Alert';
 // } from "react-router-dom";
 
 function App() {
-  const[mode, setMode] =useState('dark');
+  const [mode, setMode] = useState('light');
+  const [alert, setAlert] = useState(null);
+
+  useEffect(() => {
+    document.body.className = mode === 'dark' ? 'dark-mode' : 'light-mode';
+  }, [mode]);
+
+  const showAlert = (message, type) => {
+    setAlert({
+      msg: message,
+      type: type
+    });
+    setTimeout(() => {
+      setAlert(null);
+    }, 1500);
+  };
 
   const toggleMode = () => {
     if (mode === 'light') {
-        setMode('dark');
-        document.body.style.backgroundColor = 'grey';
+      setMode('dark');
+      showAlert("Dark mode has been enabled", "success");
+    } else {
+      setMode('light');
+      showAlert("Light mode has been enabled", "success");
     }
-    else {
-        setMode('light');
-        document.body.style.backgroundColor = 'white';
-    }
-};
-  return (
-   <>
-   
-<Navbar title ="DarkFire TextUtils" mode = {mode} toogleMode = {toggleMode} Aboutext = "About"/>
-<Alert Alert ="You Are In DarkFire TextUtils"/>
-<div className="container my-3">
-  
+  };
 
-<TextForm heading ="Enter the text to analyze"/>
-{/* <About/>  */}
-</div>
-   </>
+  return (
+    <>
+      <Navbar 
+        title="DarkFire TextUtils" 
+        mode={mode} 
+        toggleMode={toggleMode} 
+        aboutText="About"
+      />
+      <Alert alert={alert} />
+      <div className={`container my-3 text-${mode === 'light' ? 'dark' : 'light'}`}>
+        <TextForm 
+          heading="Enter the text to analyze" 
+          mode={mode}
+          showAlert={showAlert}
+        />
+        {/* <About/>  */}
+      </div>
+    </>
   );
 }
 

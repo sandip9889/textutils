@@ -199,32 +199,32 @@ export default function TextForm(props) {
 
     const getTextStyle = () => {
         return {
-            color: textColor,
+            color: props.mode === 'dark' ? 'white' : textColor,
             fontSize: textSize,
             textAlign: textAlign,
             fontWeight: isBold ? 'bold' : 'normal',
             fontStyle: isItalic ? 'italic' : 'normal',
             textDecoration: isUnderline ? 'underline' : 'none',
-            backgroundColor: highlightColor,
+            backgroundColor: highlightColor === 'transparent' ? (props.mode === 'dark' ? '#042743' : 'white') : highlightColor,
             lineHeight: lineSpacing,
             paddingLeft: `${indentation}px`
         };
     }
 
+    const getButtonClass = (baseClass) => {
+        return `${baseClass} ${props.mode === 'dark' ? 'btn-dark' : 'btn-light'}`;
+    }
+
     return (
         <>
         <div className="container">
-            <h1>{props.heading}</h1>
+            <h1 className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>{props.heading}</h1>
             <div className="mb-3">
                 <textarea 
                     className="form-control" 
                     value={text} 
                     onChange={handleOnChange} 
-                    style={{
-                        backgroundColor: props.mode === 'dark' ? 'Grey' : 'white',
-                        color: props.mode === 'dark' ? 'white' : 'black',
-                        ...getTextStyle()
-                    }} 
+                    style={getTextStyle()}
                     id="myBox" 
                     rows="8"
                 ></textarea>
@@ -232,43 +232,43 @@ export default function TextForm(props) {
 
             <div className="row mb-3">
                 <div className="col-md-6">
-                    <h4>Text Formatting</h4>
-                    <button className={`btn btn-${isBold ? 'success' : 'primary'} mx-1`} onClick={() => setIsBold(!isBold)}>Bold</button>
-                    <button className={`btn btn-${isItalic ? 'success' : 'primary'} mx-1`} onClick={() => setIsItalic(!isItalic)}>Italic</button>
-                    <button className={`btn btn-${isUnderline ? 'success' : 'primary'} mx-1`} onClick={() => setIsUnderline(!isUnderline)}>Underline</button>
+                    <h4 className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Text Formatting</h4>
+                    <button className={`btn ${getButtonClass('btn-primary')} mx-1`} onClick={() => setIsBold(!isBold)}>Bold</button>
+                    <button className={`btn ${getButtonClass('btn-primary')} mx-1`} onClick={() => setIsItalic(!isItalic)}>Italic</button>
+                    <button className={`btn ${getButtonClass('btn-primary')} mx-1`} onClick={() => setIsUnderline(!isUnderline)}>Underline</button>
                 </div>
                 <div className="col-md-6">
-                    <h4>Text Alignment</h4>
-                    <button className="btn btn-primary mx-1" onClick={() => handleTextAlignChange('left')}>Left</button>
-                    <button className="btn btn-primary mx-1" onClick={() => handleTextAlignChange('center')}>Center</button>
-                    <button className="btn btn-primary mx-1" onClick={() => handleTextAlignChange('right')}>Right</button>
-                </div>
-            </div>
-
-            <div className="row mb-3">
-                <div className="col-md-6">
-                    <h4>Text Color</h4>
-                    <button className="btn btn-danger mx-1" onClick={() => handleTextColorChange('red')}>Red</button>
-                    <button className="btn btn-success mx-1" onClick={() => handleTextColorChange('green')}>Green</button>
-                    <button className="btn btn-primary mx-1" onClick={() => handleTextColorChange('blue')}>Blue</button>
-                </div>
-                <div className="col-md-6">
-                    <h4>Text Size</h4>
-                    <button className="btn btn-primary mx-1" onClick={() => handleTextSizeChange('12px')}>Small</button>
-                    <button className="btn btn-primary mx-1" onClick={() => handleTextSizeChange('16px')}>Medium</button>
-                    <button className="btn btn-primary mx-1" onClick={() => handleTextSizeChange('20px')}>Large</button>
+                    <h4 className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Text Alignment</h4>
+                    <button className={`btn ${getButtonClass('btn-primary')} mx-1`} onClick={() => handleTextAlignChange('left')}>Left</button>
+                    <button className={`btn ${getButtonClass('btn-primary')} mx-1`} onClick={() => handleTextAlignChange('center')}>Center</button>
+                    <button className={`btn ${getButtonClass('btn-primary')} mx-1`} onClick={() => handleTextAlignChange('right')}>Right</button>
                 </div>
             </div>
 
             <div className="row mb-3">
                 <div className="col-md-6">
-                    <h4>Text Highlighting</h4>
+                    <h4 className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Text Color</h4>
+                    <button className={`btn ${getButtonClass('btn-danger')} mx-1`} onClick={() => handleTextColorChange('red')}>Red</button>
+                    <button className={`btn ${getButtonClass('btn-success')} mx-1`} onClick={() => handleTextColorChange('green')}>Green</button>
+                    <button className={`btn ${getButtonClass('btn-primary')} mx-1`} onClick={() => handleTextColorChange('blue')}>Blue</button>
+                </div>
+                <div className="col-md-6">
+                    <h4 className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Text Size</h4>
+                    <button className={`btn ${getButtonClass('btn-primary')} mx-1`} onClick={() => handleTextSizeChange('12px')}>Small</button>
+                    <button className={`btn ${getButtonClass('btn-primary')} mx-1`} onClick={() => handleTextSizeChange('16px')}>Medium</button>
+                    <button className={`btn ${getButtonClass('btn-primary')} mx-1`} onClick={() => handleTextSizeChange('20px')}>Large</button>
+                </div>
+            </div>
+
+            <div className="row mb-3">
+                <div className="col-md-6">
+                    <h4 className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Text Highlighting</h4>
                     <button className="btn btn-warning mx-1" onClick={() => handleHighlightColor('yellow')}>Yellow</button>
                     <button className="btn btn-info mx-1" onClick={() => handleHighlightColor('lightblue')}>Blue</button>
                     <button className="btn btn-success mx-1" onClick={() => handleHighlightColor('lightgreen')}>Green</button>
                 </div>
                 <div className="col-md-6">
-                    <h4>Line Spacing</h4>
+                    <h4 className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Line Spacing</h4>
                     <button className="btn btn-primary mx-1" onClick={() => handleLineSpacing('1')}>Single</button>
                     <button className="btn btn-primary mx-1" onClick={() => handleLineSpacing('1.5')}>1.5</button>
                     <button className="btn btn-primary mx-1" onClick={() => handleLineSpacing('2')}>Double</button>
@@ -277,14 +277,14 @@ export default function TextForm(props) {
 
             <div className="row mb-3">
                 <div className="col-md-6">
-                    <h4>Case Variations</h4>
+                    <h4 className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Case Variations</h4>
                     <button className="btn btn-primary mx-1" onClick={handleTitleCase}>Title Case</button>
                     <button className="btn btn-primary mx-1" onClick={handleAlternatingCase}>Alternating Case</button>
                     <button className="btn btn-primary mx-1" onClick={handleUpClick}>UpperCase</button>
                     <button className="btn btn-primary mx-1" onClick={handleLowClick}>LowerCase</button>
                 </div>
                 <div className="col-md-6">
-                    <h4>Indentation</h4>
+                    <h4 className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Indentation</h4>
                     <button className="btn btn-primary mx-1" onClick={() => handleIndentation('20')}>Indent</button>
                     <button className="btn btn-primary mx-1" onClick={() => handleIndentation('0')}>Unindent</button>
                 </div>
@@ -292,14 +292,14 @@ export default function TextForm(props) {
 
             <div className="row mb-3">
                 <div className="col-md-6">
-                    <h4>Advanced Features</h4>
+                    <h4 className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Advanced Features</h4>
                     <button className="btn btn-primary mx-1" onClick={handleTextToSpeech}>Text to Speech</button>
                     <button className="btn btn-primary mx-1" onClick={handleEncrypt}>Encrypt</button>
                     <button className="btn btn-primary mx-1" onClick={handleDecrypt}>Decrypt</button>
                     <button className="btn btn-primary mx-1" onClick={handleTextToEmoji}>Text to Emoji</button>
                 </div>
                 <div className="col-md-6">
-                    <h4>Translation</h4>
+                    <h4 className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Translation</h4>
                     <select className="form-select d-inline-block w-auto mx-2" value={targetLanguage} onChange={(e) => setTargetLanguage(e.target.value)}>
                         <option value="es">Spanish</option>
                         <option value="fr">French</option>
@@ -312,7 +312,7 @@ export default function TextForm(props) {
 
             <div className="row mb-3">
                 <div className="col-md-6">
-                    <h4>Text Validation</h4>
+                    <h4 className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Text Validation</h4>
                     <select className="form-select d-inline-block w-auto mx-2" value={validationType} onChange={(e) => setValidationType(e.target.value)}>
                         <option value="none">Select Type</option>
                         <option value="email">Email</option>
@@ -323,7 +323,7 @@ export default function TextForm(props) {
                     {validationResult && <span className="ms-2">{validationResult}</span>}
                 </div>
                 <div className="col-md-6">
-                    <h4>Export Options</h4>
+                    <h4 className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Export Options</h4>
                     <button className="btn btn-primary mx-1" onClick={() => handleExport('txt')}>Export as TXT</button>
                     <button className="btn btn-primary mx-1" onClick={() => handleExport('pdf')}>Export as PDF</button>
                 </div>
@@ -331,7 +331,7 @@ export default function TextForm(props) {
 
             <div className="row mb-3">
                 <div className="col-12">
-                    <h4>Find and Replace</h4>
+                    <h4 className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Find and Replace</h4>
                     <div className="input-group">
                         <input 
                             type="text" 
@@ -354,21 +354,21 @@ export default function TextForm(props) {
         </div>
 
         <div className="container my-3">
-            <h2>Text Statistics</h2>
-            <p>Words: {text.split(/\s+/).filter(word => word.length > 0).length}</p>
-            <p>Characters: {text.length}</p>
-            <p>Sentences: {text.split(/[.!?]+/).filter(sentence => sentence.length > 0).length}</p>
-            <p>Paragraphs: {text.split(/\n\s*\n/).filter(para => para.length > 0).length}</p>
-            <p>Reading Time: {0.008 * text.split(/\s+/).filter(word => word.length > 0).length} minutes</p>
+            <h2 className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Text Statistics</h2>
+            <p className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Words: {text.split(/\s+/).filter(word => word.length > 0).length}</p>
+            <p className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Characters: {text.length}</p>
+            <p className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Sentences: {text.split(/[.!?]+/).filter(sentence => sentence.length > 0).length}</p>
+            <p className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Paragraphs: {text.split(/\n\s*\n/).filter(para => para.length > 0).length}</p>
+            <p className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Reading Time: {0.008 * text.split(/\s+/).filter(word => word.length > 0).length} minutes</p>
             
-            <button className="btn btn-primary mb-2" onClick={() => setShowWordFrequency(!showWordFrequency)}>
+            <button className={`btn ${getButtonClass('btn-primary')} mb-2`} onClick={() => setShowWordFrequency(!showWordFrequency)}>
                 {showWordFrequency ? 'Hide' : 'Show'} Word Frequency
             </button>
             
             {showWordFrequency && (
                 <div className="mt-2">
-                    <h4>Top 10 Most Used Words:</h4>
-                    <ul>
+                    <h4 className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Top 10 Most Used Words:</h4>
+                    <ul className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>
                         {getWordFrequency().map(([word, count]) => (
                             <li key={word}>{word}: {count} times</li>
                         ))}
@@ -376,7 +376,7 @@ export default function TextForm(props) {
                 </div>
             )}
             
-            <h2>Preview</h2>
+            <h2 className={`text-${props.mode === 'dark' ? 'light' : 'dark'}`}>Preview</h2>
             <p style={getTextStyle()}>{text}</p>
         </div>
         </>
